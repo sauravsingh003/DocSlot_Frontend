@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "../config/api";
+import api from "../config/api";
 import "./AddSpeciality.css";
 import { useNavigate } from "react-router-dom";
 import Admin from "./Admin";
@@ -37,16 +37,9 @@ function AddSpeciality() {
     }
 
     try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("jwtToken")}`,
-          "Content-Type": "application/json",
-        },
-      };
-    
-      const response = await axios.post("/admin/addSpecialization", {
+      const response = await api.post("/admin/addSpecialization", {
         name: specialityName.trim(),
-      }, config);
+      });
     
       if (response.status === 201) {
         alert("Speciality added successfully!");

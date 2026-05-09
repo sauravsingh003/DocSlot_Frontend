@@ -61,13 +61,3 @@
   .submit-btn:hover {
     background-color: #dddfca;
   }
-  .form-group input[type="file"] {
-    display: block;
-    padding: 5px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    color: #333;
-    cursor: pointer;
-  }
