@@ -1,0 +1,147 @@
+.slides-container {
+  position: relative;
+  width: 100%;
+  height: 85vh;
+  overflow: hidden;
+}
+
+.slides-bg-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+.slides-doctor-img {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 40%;
+  height: auto;
+  z-index: 2;
+}
+
+.slides-text-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 6%;
+  z-index: 3;
+}
+
+.slides-text-content {
+  max-width: 45%;
+}
+
+.slides-heading {
+  font-size: 3.2rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+  font-weight: 700;
+  font-family: Georgia, serif;
+}
+
+.slides-subheading {
+  font-size: 1.7rem;
+  color: #076cea;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1.4;
+  word-break: break-word;
+}
+
+
+/* ========== RESPONSIVE MEDIA QUERIES ========== */
+@media (max-width: 992px) {
+  .slides-doctor-img {
+    width: 35%;
+  }
+
+  .slides-heading {
+    font-size: 2.5rem;
+  }
+
+  .slides-subheading {
+    font-size: 1.4rem;
+  }
+
+  .slides-text-content {
+    max-width: 60%;
+  }
+}
+
+@media (max-width: 768px) {
+  .slides-container {
+    height: 70vh;
+  }
+
+  .slides-doctor-img {
+    width: 45%;
+  }
+
+  .slides-text-content {
+    max-width: 80%;
+  }
+
+  .slides-heading {
+    font-size: 2rem;
+  }
+
+  .slides-subheading {
+    font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .slides-container {
+    height: 75vh;
+  }
+
+  .slides-doctor-img {
+    display: none; /* Hide image on very small screens */
+  }
+
+  .slides-text-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0 1rem;
+    text-align: center;
+    width: 100%;
+    z-index: 3;
+  }
+
+  .slides-text-content {
+    max-width: 100%;
+  }
+
+  .slides-heading {
+    font-size: 1.8rem;
+  }
+
+  .slides-subheading {
+    font-size: 1.7rem;
+    color: #ffffff;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+    font-weight: 500;
+    font-family: 'Courier New', monospace;
+    line-height: 1.6;
+    min-height: 70px; /* Prevent layout shift during typing */
+    white-space: pre-wrap;
+  }
+  
+  @media (max-width: 576px) {
+    .slides-subheading {
+      font-size: 1rem;
+      min-height: 50px;
+    }
+  }
+  
+}

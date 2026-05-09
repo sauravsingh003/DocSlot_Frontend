@@ -1,0 +1,72 @@
+.services-container {
+  max-width: 1100px;
+  margin: 5% auto;
+  padding: 3rem;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f4f9ff;
+  border-radius: 10px;
+}
+
+.services-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.services-header h1 {
+  font-size: 2.8rem;
+  color: #076cea;
+  font-weight: 700;
+}
+
+.services-header p {
+  font-size: 1.2rem;
+  color: #555;
+  font-style: italic;
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.service-card {
+  background-color: #fff;
+  border-left: 5px solid #076cea;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.service-card h3 {
+  color: #076cea;
+  margin-bottom: 0.8rem;
+  font-size: 1.3rem;
+}
+
+.service-card p {
+  font-size: 1rem;
+  color: #444;
+  line-height: 1.6;
+}
+
+/* Back to Home button */
+.back-button-container {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.back-home-btn {
+  background-color: #076cea;
+  color: white;
+  font-size: 1rem;
+  padding: 0.6rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.back-home-btn:hover {
+  background-color: #054fa4;
+}
