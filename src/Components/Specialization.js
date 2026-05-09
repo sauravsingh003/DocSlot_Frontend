@@ -51,12 +51,17 @@ function Specialization() {
             key={speciality.id}
             onClick={() => handleSpecialitiesClick(speciality.id)}
           >
-            {/* Display the Base64 image */}
-            <img
-              src={`data:image/png;base64,${speciality.specializationImage}`}
-              alt={speciality.name}
-              className="category-img"
-            />
+            {speciality.specializationImage ? (
+              <img
+                src={`data:image/png;base64,${speciality.specializationImage}`}
+                alt={speciality.name}
+                className="category-img"
+              />
+            ) : (
+              <div className="category-img category-img-placeholder">
+                {speciality.name?.charAt(0)?.toUpperCase()}
+              </div>
+            )}
 
             <p className="category-name">{speciality.name}</p>
           </div>
