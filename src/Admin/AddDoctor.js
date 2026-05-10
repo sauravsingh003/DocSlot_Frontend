@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "../config/api";
 import { useNavigate } from "react-router-dom";
 import "./AddDoctor.css";
-import Admin from "./Admin";
 
 function AddDoctor() {
   const [name, setName] = useState("");
@@ -26,8 +25,6 @@ function AddDoctor() {
       navigate("/doctor");
     } else if (role === "PATIENT") {
       navigate("/");
-    } else if (role === "ADMIN") {
-      navigate("/admin");
     } else if (role === "RECEPTIONIST") {
       navigate("/receiptionist");
     }
@@ -105,7 +102,7 @@ function AddDoctor() {
   };
 
   return (
-    <Admin>
+    <>
       <div className="add-doctor-container">
         <h3>Add New Doctor</h3>
         {/* ✅ FIXED: added enctype for file upload */}
@@ -160,7 +157,7 @@ function AddDoctor() {
           <button type="submit" className="submit-btn">Submit</button>
         </form>
       </div>
-    </Admin>
+    </>
   );
 }
 

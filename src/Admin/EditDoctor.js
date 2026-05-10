@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "../config/api";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Admin from "./Admin";
 
 function EditDoctor() {
   const navigate = useNavigate();
@@ -14,10 +13,7 @@ function EditDoctor() {
           navigate("/doctor");
         } else if (sessionStorage.getItem("userRole") === "PATIENT") {
           navigate("/");
-        } else if (sessionStorage.getItem("userRole") === "ADMIN") {
-          navigate("/admin");
-        }
-        else if (sessionStorage.getItem("userRole") === "RECEPTIONIST") {
+        } else if (sessionStorage.getItem("userRole") === "RECEPTIONIST") {
           navigate("/receiptionist");
         }
       }, [navigate]);
@@ -100,7 +96,7 @@ function EditDoctor() {
   };
 
   return (
-    <Admin>
+    <>
       <ToastContainer />
       <div className="d-flex justify-content-center align-items-center">
         <div
@@ -213,7 +209,7 @@ function EditDoctor() {
           </form>
         </div>
       </div>
-    </Admin>
+    </>
   );
 }
 

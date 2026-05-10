@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import {
   FaUserMd,
   FaUserTie,
@@ -7,12 +7,14 @@ import {
   FaStethoscope,
   FaClipboardList,
   FaBars,
+  FaTimes,
 } from "react-icons/fa";
 import AdminNavbar from "./AdminNavbar";
 import "./Styles.css";
 
 function Admin({ children }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
@@ -28,22 +30,40 @@ function Admin({ children }) {
     }
   }, [navigate]);
 
+  useEffect(() => {
+    setShowSidebar(false);
+  }, [location.pathname]);
+
   return (
     <>
       <AdminNavbar />
-      <div className="layout-container">
+      <div className="layout-container admin-layout-container">
         {/* Sidebar Toggle Button (visible only on small screens) */}
-        <button
-          className="btn btn-outline-light d-md-none sidebar-toggle"
-          onClick={() => setShowSidebar(!showSidebar)}
-        >
-          <FaBars /> Menu
-        </button>
+        {!showSidebar && (
+          <button
+            className="btn btn-outline-light d-md-none sidebar-toggle"
+            type="button"
+            aria-expanded={showSidebar}
+            aria-controls="admin-sidebar"
+            onClick={() => setShowSidebar(true)}
+          >
+            <FaBars /> Menu
+          </button>
+        )}
 
         {/* Sidebar */}
-        <div
-          className={`sidebar bg-light ${showSidebar ? "d-block" : "d-none"} d-md-flex`}
+        <aside
+          id="admin-sidebar"
+          className={`sidebar bg-light ${showSidebar ? "open" : ""}`}
         >
+          <button
+            className="sidebar-close d-md-none"
+            type="button"
+            aria-label="Close sidebar"
+            onClick={() => setShowSidebar(false)}
+          >
+            <FaTimes />
+          </button>
           <div className="sidebar-header">Admin</div>
           <nav className="sidebar-nav">
             <NavLink
@@ -51,7 +71,6 @@ function Admin({ children }) {
               className={({ isActive }) =>
                 isActive ? "sidebar-link active" : "sidebar-link"
               }
-              onClick={() => setShowSidebar(false)}
             >
               <FaHospitalSymbol className="icon" /> Add Speciality
             </NavLink>
@@ -60,7 +79,6 @@ function Admin({ children }) {
               className={({ isActive }) =>
                 isActive ? "sidebar-link active" : "sidebar-link"
               }
-              onClick={() => setShowSidebar(false)}
             >
               <FaUserMd className="icon" /> Add Doctor
             </NavLink>
@@ -69,7 +87,6 @@ function Admin({ children }) {
               className={({ isActive }) =>
                 isActive ? "sidebar-link active" : "sidebar-link"
               }
-              onClick={() => setShowSidebar(false)}
             >
               <FaUserTie className="icon" /> Add Receptionist
             </NavLink>
@@ -78,7 +95,6 @@ function Admin({ children }) {
               className={({ isActive }) =>
                 isActive ? "sidebar-link active" : "sidebar-link"
               }
-              onClick={() => setShowSidebar(false)}
             >
               <FaStethoscope className="icon" /> View Doctors
             </NavLink>
@@ -87,15 +103,14 @@ function Admin({ children }) {
               className={({ isActive }) =>
                 isActive ? "sidebar-link active" : "sidebar-link"
               }
-              onClick={() => setShowSidebar(false)}
             >
               <FaClipboardList className="icon" /> View Receptionist
             </NavLink>
           </nav>
-        </div>
+        </aside>
 
         {/* Main Content */}
-        <div className="main-content">{children}</div>
+        <div className="main-content">{children || <Outlet />}</div>
       </div>
     </>
   );

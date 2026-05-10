@@ -6,7 +6,6 @@ import axios from "../config/api";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-import Admin from "./Admin";
 
 function AddReceptionist() {
     const navigate = useNavigate();
@@ -17,10 +16,7 @@ function AddReceptionist() {
         navigate("/doctor");
       } else if (sessionStorage.getItem("userRole") === "PATIENT") {
         navigate("/");
-      } else if (sessionStorage.getItem("userRole") === "ADMIN") {
-        navigate("/admin");
-      }
-      else if (sessionStorage.getItem("userRole") === "RECEPTIONIST") {
+      } else if (sessionStorage.getItem("userRole") === "RECEPTIONIST") {
         navigate("/receiptionist");
       }
     }, [navigate]);
@@ -69,7 +65,7 @@ function AddReceptionist() {
   });
 
   return (
-    <Admin>
+    <>
       <div className="d-flex justify-content-center align-items-center vh-40 mt-5">
         <div
           className="shadow-lg p-4"
@@ -144,7 +140,7 @@ function AddReceptionist() {
               <button
                 type="submit"
                 className="btn btn-light w-100"
-                style={{ backgroundColor: "#076cea" }}
+                style={{ backgroundColor: "#076cea", border: "none", color: "white" }}
               >
                 Add Receptionist
               </button>
@@ -152,7 +148,7 @@ function AddReceptionist() {
           </form>
         </div>
       </div>
-    </Admin>
+    </>
   );
 }
 

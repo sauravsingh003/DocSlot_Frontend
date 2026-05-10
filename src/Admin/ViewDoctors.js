@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "../config/api";
 import { useNavigate } from "react-router-dom";
 import "./ViewDoctors.css";
-import Admin from "./Admin";
 
 function ViewDoctors() {
   const [doctors, setDoctors] = useState([]);
@@ -15,8 +14,6 @@ function ViewDoctors() {
       navigate("/doctor");
     } else if (sessionStorage.getItem("userRole") === "PATIENT") {
       navigate("/");
-    } else if (sessionStorage.getItem("userRole") === "ADMIN") {
-      navigate("/admin");
     } else if (sessionStorage.getItem("userRole") === "RECEPTIONIST") {
       navigate("/receiptionist");
     }
@@ -49,7 +46,7 @@ function ViewDoctors() {
   };
 
   return (
-    <Admin>
+    <>
       <div className="view-doctors-container">
         <h3>View Doctors</h3>
         <div className="table-responsive">
@@ -58,7 +55,6 @@ function ViewDoctors() {
               <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Password</th>
                 <th>Phone</th>
                 <th>Degree</th>
                 <th>Amount</th>
@@ -71,7 +67,6 @@ function ViewDoctors() {
                   <tr key={doctor.email}>
                     <td>{doctor.name}</td>
                     <td>{doctor.email}</td>
-                    <td>{doctor.password}</td>
                     <td>{doctor.phone}</td>
                     <td>{doctor.degree}</td>
                     <td>{doctor.amount}</td>
@@ -80,14 +75,14 @@ function ViewDoctors() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="7">No doctors available</td>
+                  <td colSpan="6">No doctors available</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
       </div>
-    </Admin>
+    </>
   );
 }
 

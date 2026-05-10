@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "../config/api";
 import "./ViewReceiptionist.css";
 import { useNavigate } from "react-router-dom";
-import Admin from "./Admin";
 
 function ViewReceiptionist() {
   const [receptionists, setReceptionists] = useState([]);
@@ -18,8 +17,6 @@ function ViewReceiptionist() {
       navigate("/doctor");
     } else if (role === "PATIENT") {
       navigate("/");
-    } else if (role === "ADMIN") {
-      navigate("/admin");
     } else if (role === "RECEPTIONIST") {
       navigate("/receiptionist");
     }
@@ -61,7 +58,7 @@ function ViewReceiptionist() {
   };
 
   return (
-    <Admin>
+    <>
       <div className="view-receptionist-container">
         <h2>View Receptionists</h2>
         <div className="table-responsive">
@@ -71,7 +68,6 @@ function ViewReceiptionist() {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Phone</th>
-                <th>Password</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -82,7 +78,6 @@ function ViewReceiptionist() {
                     <td>{rec.name}</td>
                     <td>{rec.email}</td>
                     <td>{rec.phone}</td>
-                    <td>{rec.password}</td>
                     <td>
                       <button className="edit-btn" onClick={() => handleEdit(rec.id)}>Edit</button>
                       <button className="delete-btn" onClick={() => handleDelete(rec.id)}>Delete</button>
@@ -91,14 +86,14 @@ function ViewReceiptionist() {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="5">No receptionists available</td>
+                  <td colSpan="4">No receptionists available</td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
       </div>
-    </Admin>
+    </>
   );
 }
 

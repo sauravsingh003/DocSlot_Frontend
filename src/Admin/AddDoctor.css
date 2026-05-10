@@ -54,7 +54,7 @@ h3 {
 
 .submit-btn {
   padding: 12px;
-  background-color: #6c63ff;
+  background-color: #076cea;
   color: white;
   font-size: 16px;
   border: none;
@@ -64,7 +64,7 @@ h3 {
 }
 
 .submit-btn:hover {
-  background-color: #5348c7;
+  background-color: #0056b3;
 }
 
 /* ✅ Responsive Styles */

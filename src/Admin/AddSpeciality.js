@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import api from "../config/api";
 import "./AddSpeciality.css";
 import { useNavigate } from "react-router-dom";
-import Admin from "./Admin";
 
 function AddSpeciality() {
   const [specialityName, setSpecialityName] = useState("");
@@ -16,10 +15,7 @@ function AddSpeciality() {
         navigate("/doctor");
       } else if (sessionStorage.getItem("userRole") === "PATIENT") {
         navigate("/");
-      } else if (sessionStorage.getItem("userRole") === "ADMIN") {
-        navigate("/admin");
-      }
-      else if (sessionStorage.getItem("userRole") === "RECEPTIONIST") {
+      } else if (sessionStorage.getItem("userRole") === "RECEPTIONIST") {
         navigate("/receiptionist");
       }
     }, [navigate]);
@@ -54,7 +50,7 @@ function AddSpeciality() {
   }
 
   return (
-    <Admin>
+    <>
       <div className="add-category-container">
         <h3>Add New Speciality</h3>
         <form onSubmit={handleSubmit} className="category-form">
@@ -77,7 +73,7 @@ function AddSpeciality() {
           </button>
         </form>
       </div>
-    </Admin>
+    </>
   );
 }
 

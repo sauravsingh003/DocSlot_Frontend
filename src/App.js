@@ -18,6 +18,7 @@ import AddReceptionist from "./Admin/AddReceptionist";
 import ViewDoctors from "./Admin/ViewDoctors";
 import EditDoctor from "./Admin/EditDoctor";
 import EditReceptionist from "./Admin/EditReceptionist";
+import Admin from "./Admin/Admin";
 
 // Customer Components
 import EditProfile from "./Customer/EditProfile";
@@ -50,14 +51,16 @@ function App() {
           <Route path="/contact" element={<Contact />} />
 
           {/* Admin Routes */}
-          <Route path="/admin" element={<AddSpeciality />} />
-          <Route path="/admin/addSpeciality" element={<AddSpeciality />} />
-          <Route path="/admin/addDoctor" element={<AddDoctor />} />
-          <Route path="/admin/addReceptionist" element={<AddReceptionist />} />
-          <Route path="/admin/viewDoctors" element={<ViewDoctors />} />
-          <Route path="/admin/viewReceptionist" element={<ViewReceiptionist />} />
-          <Route path="/admin/editDoctor/:id" element={<EditDoctor />} />
-          <Route path="/admin/editreceptionist/:id" element={<EditReceptionist />} />
+          <Route path="/admin" element={<Admin />}>
+            <Route index element={<AddSpeciality />} />
+            <Route path="addSpeciality" element={<AddSpeciality />} />
+            <Route path="addDoctor" element={<AddDoctor />} />
+            <Route path="addReceptionist" element={<AddReceptionist />} />
+            <Route path="viewDoctors" element={<ViewDoctors />} />
+            <Route path="viewReceptionist" element={<ViewReceiptionist />} />
+            <Route path="editDoctor/:id" element={<EditDoctor />} />
+            <Route path="editreceptionist/:id" element={<EditReceptionist />} />
+          </Route>
 
           {/* Receiptionist Routes */}
           <Route path="/receiptionist" element={<AddPatient />} />
