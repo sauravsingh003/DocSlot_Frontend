@@ -1,50 +1,62 @@
 import React from "react";
-import { ToastContainer } from "react-toastify";
-import { Typewriter } from "react-simple-typewriter";
-import "react-toastify/dist/ReactToastify.css";
+import { FaArrowRight, FaCalendarCheck, FaMagnifyingGlass } from "react-icons/fa6";
+import { NavLink } from "react-router-dom";
 import "./Slides.css";
 
 function Slides() {
   return (
-    <div className="slides-container">
-      <ToastContainer />
+    <section className="hero-section">
+      <div className="container hero-grid">
+        <div className="hero-content">
+          <div className="hero-kicker">
+            <FaCalendarCheck />
+            Smart healthcare scheduling
+          </div>
 
-      {/* Background Image */}
-      <img
-        src="/assests/img6.jpg"
-        alt="Banner"
-        className="slides-bg-image"
-      />
+          <h1>Book trusted doctors without the waiting-room stress.</h1>
+          <p>
+            DocSlot helps patients discover specialists, check availability, and
+            manage appointments through a clean online experience built for modern
+            clinics and hospitals.
+          </p>
 
-      {/* Doctor Image */}
-      <img
-        src="/assests/heroImg.png"
-        alt="Doctor"
-        className="slides-doctor-img"
-      />
+          <div className="hero-actions">
+            <NavLink className="btn btn-gradient" to="/bookappointment">
+              Book Appointment
+              <FaArrowRight />
+            </NavLink>
+            <a className="btn btn-outline-soft" href="#specializations">
+              <FaMagnifyingGlass />
+              Explore Doctors
+            </a>
+          </div>
 
-      {/* Text Area */}
-      <div className="slides-text-wrapper">
-        <div className="slides-text-content">
-          <h1 className="slides-heading">Welcome to DocSlot</h1>
-          <h2 className="slides-subheading">
-            <Typewriter
-              words={[
-                "Book your appointment with trusted doctors — anytime, anywhere.",
-                "Real-time doctor availability and secure scheduling.",
-                "Hassle-free appointment booking for patients & doctors.",
-              ]}
-              loop={0}
-              cursor
-              cursorStyle="|"
-              typeSpeed={40}
-              deleteSpeed={30}
-              delaySpeed={2000}
+          <div className="hero-trust-row" aria-label="DocSlot care highlights">
+            <span>Verified doctors</span>
+            <span>Secure bookings</span>
+            <span>Real-time schedules</span>
+          </div>
+        </div>
+
+        <div className="hero-visual" aria-label="Doctor consultation illustration">
+          <div className="hero-image-card">
+            <img
+              src="/assests/heroImg.png"
+              alt="Doctor ready to help patients book appointments"
+              loading="eager"
             />
-          </h2>
+          </div>
+          <div className="hero-floating-card hero-floating-card-top">
+            <strong>12 min</strong>
+            <span>Average booking time saved</span>
+          </div>
+          <div className="hero-floating-card hero-floating-card-bottom">
+            <strong>4.9/5</strong>
+            <span>Patient satisfaction</span>
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
 

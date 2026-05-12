@@ -1,31 +1,48 @@
 import React from "react";
+import { FaBell, FaClock, FaFileMedical } from "react-icons/fa6";
 import "./Section1.css";
 
 function Section1() {
   return (
-    <div className="section1-container">
-      <div className="text-content">
-        <h2 style={{ color: "#076cea" }} className="fw-bold fs-1 mb-4">
-          DocSlot: The Appointment Booking System
-        </h2>
-        <p className="fs-5">
-          The DocSlot Online Appointment System is designed to simplify and streamline
-          healthcare scheduling for both patients and medical professionals. With an
-          easy-to-use interface, users can book, reschedule, or cancel appointments
-          anytime, from anywhere. The system offers real-time doctor availability,
-          automated reminders, and access to appointment history — all securely stored
-          in one place. Whether for in-person consultations or telemedicine, DocSlot's
-          digital solution ensures a smooth and efficient experience, helping patients
-          get the care they need without the wait.
-        </p>
-      </div>
+    <section className="care-flow-section">
+      <div className="container care-flow-grid">
+        <div className="care-flow-image">
+          <img
+            src="/assests/img4.jpg"
+            alt="Healthcare professional helping with online appointment booking"
+            loading="lazy"
+          />
+        </div>
 
-      <img
-        src="/assests/img4.jpg"
-        alt="Online Appointment System"
-        className="center-image"
-      />
-    </div>
+        <div className="care-flow-content">
+          <span>Built for real clinics</span>
+          <h2>Manage appointments from discovery to follow-up.</h2>
+          <p>
+            DocSlot streamlines healthcare scheduling for patients and medical
+            teams. Users can book appointments, review appointment history, and
+            get care updates through one simple digital workflow.
+          </p>
+
+          <div className="care-flow-points">
+            <div>
+              <FaClock />
+              <strong>Real-time availability</strong>
+              <small>Help patients choose a suitable slot faster.</small>
+            </div>
+            <div>
+              <FaBell />
+              <strong>Appointment reminders</strong>
+              <small>Reduce missed appointments with timely updates.</small>
+            </div>
+            <div>
+              <FaFileMedical />
+              <strong>Visit history</strong>
+              <small>Keep previous appointments accessible and organized.</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 

@@ -1,147 +1,214 @@
-.slides-container {
-  position: relative;
-  width: 100%;
-  height: 85vh;
+.hero-section {
+  background:
+    radial-gradient(circle at 82% 20%, rgba(11, 184, 159, 0.22), transparent 30%),
+    radial-gradient(circle at 10% 12%, rgba(10, 143, 221, 0.18), transparent 28%),
+    linear-gradient(135deg, #f4fbff 0%, #e9f8ff 52%, #f8fffb 100%);
   overflow: hidden;
+  padding: 5.4rem 0 6.8rem;
+  position: relative;
 }
 
-.slides-bg-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.hero-grid {
+  align-items: center;
+  display: grid;
+  gap: 3.5rem;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 0.88fr);
+}
+
+.hero-content {
+  animation: heroContentIn 0.7s ease both;
+  max-width: 690px;
+}
+
+.hero-kicker {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid rgba(10, 143, 221, 0.16);
+  border-radius: 999px;
+  color: #08706d;
+  display: inline-flex;
+  font-size: 0.88rem;
+  font-weight: 800;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding: 0.55rem 0.9rem;
+}
+
+.hero-content h1 {
+  color: #0f2d46;
+  font-size: clamp(2.6rem, 5.6vw, 5.15rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.02;
+  margin-bottom: 1.25rem;
+}
+
+.hero-content p {
+  color: #5f7485;
+  font-size: 1.12rem;
+  line-height: 1.75;
+  margin-bottom: 2rem;
+  max-width: 620px;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+}
+
+.hero-actions .btn {
+  gap: 0.55rem;
+  text-decoration: none;
+}
+
+.hero-trust-row {
+  color: #617789;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 0.94rem;
+  font-weight: 800;
+  gap: 0.75rem;
+}
+
+.hero-trust-row span {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.45rem;
+}
+
+.hero-trust-row span::before {
+  background: #0bb89f;
+  border-radius: 50%;
+  content: "";
+  height: 8px;
+  width: 8px;
+}
+
+.hero-visual {
+  min-height: 520px;
+  position: relative;
+}
+
+.hero-image-card {
+  align-items: end;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0.18)),
+    url("/assests/img6.jpg") center / cover;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: 32px;
+  box-shadow: 0 28px 70px rgba(15, 52, 86, 0.18);
+  display: flex;
+  height: 500px;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-image-card::after {
+  background: linear-gradient(180deg, transparent 45%, rgba(10, 143, 221, 0.2));
+  content: "";
+  inset: 0;
   position: absolute;
-  top: 0;
-  left: 0;
+}
+
+.hero-image-card img {
+  height: 96%;
+  max-width: 92%;
+  object-fit: contain;
+  position: relative;
   z-index: 1;
 }
 
-.slides-doctor-img {
+.hero-floating-card {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(141, 164, 183, 0.18);
+  border-radius: 18px;
+  box-shadow: 0 18px 44px rgba(15, 52, 86, 0.14);
+  display: grid;
+  gap: 0.2rem;
+  max-width: 210px;
+  padding: 1rem;
   position: absolute;
-  bottom: 0;
-  right: 0;
-  width: 40%;
-  height: auto;
   z-index: 2;
 }
 
-.slides-text-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding-left: 6%;
-  z-index: 3;
+.hero-floating-card strong {
+  color: #0a6fb0;
+  font-size: 1.45rem;
+  font-weight: 900;
 }
 
-.slides-text-content {
-  max-width: 45%;
-}
-
-.slides-heading {
-  font-size: 3.2rem;
-  margin-bottom: 1rem;
-  color: #ffffff;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.6);
+.hero-floating-card span {
+  color: #5f7485;
+  font-size: 0.88rem;
   font-weight: 700;
-  font-family: Georgia, serif;
+  line-height: 1.35;
 }
 
-.slides-subheading {
-  font-size: 1.7rem;
-  color: #076cea;
-  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-  font-style: italic;
-  font-weight: 500;
-  line-height: 1.4;
-  word-break: break-word;
+.hero-floating-card-top {
+  left: -1rem;
+  top: 4rem;
 }
 
+.hero-floating-card-bottom {
+  bottom: 3.5rem;
+  right: -0.7rem;
+}
 
-/* ========== RESPONSIVE MEDIA QUERIES ========== */
-@media (max-width: 992px) {
-  .slides-doctor-img {
-    width: 35%;
+@keyframes heroContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
 
-  .slides-heading {
-    font-size: 2.5rem;
-  }
-
-  .slides-subheading {
-    font-size: 1.4rem;
-  }
-
-  .slides-text-content {
-    max-width: 60%;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-@media (max-width: 768px) {
-  .slides-container {
-    height: 70vh;
+@media (max-width: 991px) {
+  .hero-section {
+    padding: 4.4rem 0 4.8rem;
   }
 
-  .slides-doctor-img {
-    width: 45%;
+  .hero-grid {
+    gap: 2.5rem;
+    grid-template-columns: 1fr;
   }
 
-  .slides-text-content {
-    max-width: 80%;
+  .hero-visual {
+    min-height: auto;
   }
 
-  .slides-heading {
-    font-size: 2rem;
-  }
-
-  .slides-subheading {
-    font-size: 1.2rem;
+  .hero-image-card {
+    height: 430px;
   }
 }
 
-@media (max-width: 576px) {
-  .slides-container {
-    height: 75vh;
+@media (max-width: 575px) {
+  .hero-section {
+    padding: 3.25rem 0 3.75rem;
   }
 
-  .slides-doctor-img {
-    display: none; /* Hide image on very small screens */
+  .hero-content h1 {
+    font-size: 2.55rem;
   }
 
-  .slides-text-wrapper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 0 1rem;
-    text-align: center;
+  .hero-actions .btn {
     width: 100%;
-    z-index: 3;
   }
 
-  .slides-text-content {
-    max-width: 100%;
+  .hero-image-card {
+    border-radius: 24px;
+    height: 340px;
   }
 
-  .slides-heading {
-    font-size: 1.8rem;
+  .hero-floating-card {
+    position: static;
+    margin-top: 0.8rem;
+    max-width: none;
   }
-
-  .slides-subheading {
-    font-size: 1.7rem;
-    color: #ffffff;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
-    font-weight: 500;
-    font-family: 'Courier New', monospace;
-    line-height: 1.6;
-    min-height: 70px; /* Prevent layout shift during typing */
-    white-space: pre-wrap;
-  }
-  
-  @media (max-width: 576px) {
-    .slides-subheading {
-      font-size: 1rem;
-      min-height: 50px;
-    }
-  }
-  
 }

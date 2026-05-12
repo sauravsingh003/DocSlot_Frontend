@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import * as Yup from "yup";
 import axios from "../config/api";
 import { toast, ToastContainer } from "react-toastify";
 import { useNavigate, Link } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import CustomerNavbar from "./CustomerNavbar";
+import FormField from "./FormField";
+import { registerValidationSchema } from "../utils/validationSchemas";
+import { FaUser, FaEnvelope, FaLock, FaPhone } from "react-icons/fa6";
 
 function Register() {
   const navigate = useNavigate();
@@ -16,29 +18,30 @@ function Register() {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
-      age: "",
-      gender: "",
-      weight: "",
+      firstName: "",
+      lastName: "",
       email: "",
+      phone: "",
       password: "",
+      confirmPassword: "",
     },
-    validationSchema: Yup.object({
-      name: Yup.string().required("Name is required"),
-      age: Yup.number().positive("Must be positive").integer("Must be a number").required("Age is required"),
-      gender: Yup.string().oneOf(["Male", "Female", "Other"]).required("Gender is required"),
-      weight: Yup.number().positive("Must be positive").required("Weight is required"),
-      email: Yup.string().email("Invalid email").required("Email is required"),
-      password: Yup.string().min(6, "Minimum 6 characters").required("Password is required"),
-    }),
+    validationSchema: registerValidationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        const response = await axios.post("/patient/registerPatient", values);
+        const payload = {
+          name: `${values.firstName} ${values.lastName}`,
+          email: values.email,
+          phone: values.phone,
+          password: values.password,
+        };
+        const response = await axios.post("/patient/registerPatient", payload);
         toast.success("Registration successful!", { position: "top-right", autoClose: 1500 });
         navigate("/login");
       } catch (error) {
-        toast.error("Registration failed. Please try again.", { position: "top-right", autoClose: 1500 });
+        toast.error(error.response?.data?.message || "Registration failed. Please try again.", { position: "top-right", autoClose: 1500 });
       } finally {
         setLoading(false);
       }
@@ -62,109 +65,126 @@ function Register() {
         >
           <h3 className="text-center text-primary fw-bold mb-4">Register</h3>
           <form onSubmit={formik.handleSubmit}>
-            {/* Name */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">Name</label>
-              <input
-                type="text"
-                {...formik.getFieldProps("name")}
-                className={`form-control ${formik.touched.name && formik.errors.name ? "is-invalid" : ""}`}
-                placeholder="Your full name"
-              />
-              {formik.touched.name && formik.errors.name && (
-                <div className="invalid-feedback d-block">{formik.errors.name}</div>
-              )}
-            </div>
+            {/* First Name */}
+            <FormField
+              label="First Name"
+              name="firstName"
+              type="text"
+              placeholder="Enter your first name"
+              value={formik.values.firstName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.errors.firstName}
+              touched={formik.touched.firstName}
+              icon={<FaUser />}
+            />
 
-            {/* Age */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">Age</label>
-              <input
-                type="number"
-                {...formik.getFieldProps("age")}
-                className={`form-control ${formik.touched.age && formik.errors.age ? "is-invalid" : ""}`}
-                placeholder="Your age"
-              />
-              {formik.touched.age && formik.errors.age && (
-                <div className="invalid-feedback d-block">{formik.errors.age}</div>
-              )}
-            </div>
+            {/* Last Name */}
+            <FormField
+              label="Last Name"
+              name="lastName"
+              type="text"
+              placeholder="Enter your last name"
+              value={formik.values.lastName}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.errors.lastName}
+              touched={formik.touched.lastName}
+              icon={<FaUser />}
+            />
 
-            {/* Gender */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">Gender</label>
-              <select
-                {...formik.getFieldProps("gender")}
-                className={`form-control ${formik.touched.gender && formik.errors.gender ? "is-invalid" : ""}`}
-              >
-                <option value="">Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-                <option value="Other">Other</option>
-              </select>
-              {formik.touched.gender && formik.errors.gender && (
-                <div className="invalid-feedback d-block">{formik.errors.gender}</div>
-              )}
-            </div>
+            {/* Email */}
+            <FormField
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="Enter your email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.errors.email}
+              touched={formik.touched.email}
+              icon={<FaEnvelope />}
+            />
 
-            {/* Weight */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">Weight (kg)</label>
-              <input
-                type="number"
-                {...formik.getFieldProps("weight")}
-                className={`form-control ${formik.touched.weight && formik.errors.weight ? "is-invalid" : ""}`}
-                placeholder="Your weight in kg"
-              />
-              {formik.touched.weight && formik.errors.weight && (
-                <div className="invalid-feedback d-block">{formik.errors.weight}</div>
-              )}
-            </div>
+            {/* Phone */}
+            <FormField
+              label="Phone Number"
+              name="phone"
+              type="tel"
+              placeholder="10-digit phone number"
+              value={formik.values.phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.errors.phone}
+              touched={formik.touched.phone}
+              icon={<FaPhone />}
+              maxLength="10"
+              inputMode="numeric"
+            />
 
-            {/* Email with icon */}
+            {/* Password */}
             <div className="mb-3">
-              <label className="form-label fw-semibold">Email</label>
+              <label htmlFor="password" className="form-label fw-semibold">
+                Password
+              </label>
               <div className="input-group">
                 <span className="input-group-text bg-light">
-                  <i className="fas fa-envelope"></i>
+                  <FaLock />
                 </span>
                 <input
-                  type="email"
-                  {...formik.getFieldProps("email")}
-                  className={`form-control ${formik.touched.email && formik.errors.email ? "is-invalid" : ""}`}
-                  placeholder="Enter your email"
-                />
-              </div>
-              {formik.touched.email && formik.errors.email && (
-                <div className="invalid-feedback d-block">{formik.errors.email}</div>
-              )}
-            </div>
-
-            {/* Password with eye icon */}
-            <div className="mb-3">
-              <label className="form-label fw-semibold">Password</label>
-              <div className="input-group">
-                <span className="input-group-text bg-light">
-                  <i className="fas fa-lock"></i>
-                </span>
-                <input
+                  id="password"
                   type={showPassword ? "text" : "password"}
                   {...formik.getFieldProps("password")}
-                  className={`form-control ${formik.touched.password && formik.errors.password ? "is-invalid" : ""}`}
-                  placeholder="Create a password"
+                  className={`form-control ${
+                    formik.touched.password && formik.errors.password
+                      ? "is-invalid border-danger"
+                      : ""
+                  }`}
+                  placeholder="Min 8 chars, uppercase, lowercase, number, special char"
+                  style={{
+                    borderColor:
+                      formik.touched.password && formik.errors.password
+                        ? "#dc3545"
+                        : undefined,
+                  }}
                 />
-                <span className="input-group-text bg-light" onClick={togglePassword} style={{ cursor: "pointer" }}>
+                <span
+                  className="input-group-text bg-light"
+                  onClick={togglePassword}
+                  style={{ cursor: "pointer" }}
+                >
                   <i className={`fas ${showPassword ? "fa-eye-slash" : "fa-eye"}`}></i>
                 </span>
               </div>
               {formik.touched.password && formik.errors.password && (
-                <div className="invalid-feedback d-block">{formik.errors.password}</div>
+                <div className="invalid-feedback d-block" style={{ color: "#dc3545" }}>
+                  {formik.errors.password}
+                </div>
               )}
             </div>
 
-            {/* Submit */}
+            {/* Confirm Password */}
+            <FormField
+              label="Confirm Password"
+              name="confirmPassword"
+              type="password"
+              placeholder="Re-enter your password"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.errors.confirmPassword}
+              touched={formik.touched.confirmPassword}
+              icon={<FaLock />}
+            />
+
+            {/* Submit Button */}
             <div className="d-grid mt-4">
-              <button type="submit" className="btn btn-primary btn-lg" disabled={loading}>
+              <button 
+                type="submit" 
+                className="btn btn-primary btn-lg" 
+                disabled={loading || !formik.isValid || !formik.dirty}
+              >
                 {loading ? (
                   <>
                     <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>

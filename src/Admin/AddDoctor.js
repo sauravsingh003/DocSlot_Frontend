@@ -1,31 +1,29 @@
 import React, { useState, useEffect } from "react";
+import { useFormik } from "formik";
 import axios from "../config/api";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import FormField from "../Components/FormField";
+import { addDoctorValidationSchema } from "../utils/validationSchemas";
+import { FaUser, FaEnvelope, FaPhone, FaGraduationCap, FaMoneyBillWave } from "react-icons/fa6";
 import "./AddDoctor.css";
 
 function AddDoctor() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [degree, setDegree] = useState("");
-  const [phone, setPhone] = useState("");
-  const [doctorImage, setDoctorImage] = useState(null);
   const [specializations, setSpecializations] = useState([]);
-  const [specializationId, setSpecializationId] = useState("");
-  const [password, setPassword] = useState("");
-  const [amount, setAmount] = useState("");
-  const [error, setError] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const role = sessionStorage.getItem("userRole");
+
     if (!sessionStorage.getItem("userName")) {
       navigate("/");
-    } else if (role === "DOCTOR") {
+    } else if (role === "ROLE_DOCTOR") {
       navigate("/doctor");
-    } else if (role === "PATIENT") {
+    } else if (role === "ROLE_PATIENT") {
       navigate("/");
-    } else if (role === "RECEPTIONIST") {
+    } else if (role === "ROLE_RECEPTIONIST") {
       navigate("/receiptionist");
     }
   }, [navigate]);
@@ -33,131 +31,204 @@ function AddDoctor() {
   useEffect(() => {
     const fetchSpecializations = async () => {
       try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${sessionStorage.getItem("jwtToken")}`,
-            "Content-Type": "application/json",
-          },
-        };
-        const response = await axios.get("/admin/getAllSpecialization", config);
+        const response = await axios.get("/admin/getAllSpecialization");
         setSpecializations(response.data);
       } catch (error) {
         console.error("Error fetching specializations:", error);
+        toast.error("Failed to load specializations");
       }
     };
+
     fetchSpecializations();
   }, []);
 
-  const handleImageChange = (e) => {
-    setDoctorImage(e.target.files[0]);
-  };
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      phone: "",
+      age: "",
+      specialization: "",
+      fee: "",
+      degree: "",
+      password: "",
+    },
+    validationSchema: addDoctorValidationSchema,
+    validateOnBlur: true,
+    validateOnChange: true,
+    onSubmit: async (values) => {
+      setLoading(true);
+      try {
+        const doctorData = {
+          name: values.name.trim(),
+          email: values.email.trim(),
+          degree: values.degree.trim(),
+          phone: values.phone.trim(),
+          specializationId: values.specialization,
+          password: values.password,
+          amount: parseFloat(values.fee),
+        };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+        const response = await axios.post("/admin/addDoctor", doctorData);
 
-    if (!name || !email || !degree || !phone || !specializationId || !doctorImage || !password || !amount) {
-      setError("All fields are required.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("name", name);
-    formData.append("email", email);
-    formData.append("degree", degree);
-    formData.append("phone", phone);
-    formData.append("specializationId", specializationId);
-    formData.append("doctorImage", doctorImage);
-    formData.append("password", password);
-    formData.append("amount", amount);
-
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${sessionStorage.getItem("jwtToken")}`,
-          "Content-Type": "multipart/form-data",
-        },
-      };
-
-      const response = await axios.post("/admin/addDoctor", formData, config);
-
-      if (response.status === 201) {
-        alert("Doctor added successfully!");
-        setName("");
-        setEmail("");
-        setDegree("");
-        setPhone("");
-        setSpecializationId("");
-        setDoctorImage(null);
-        setPassword("");
-        setAmount("");
-        setError("");
-        window.location.reload();
-      } else {
-        alert("Failed to add doctor.");
+        if (response.status === 201 || response.status === 200) {
+          toast.success("Doctor added successfully!");
+          formik.resetForm();
+          setTimeout(() => navigate("/admin/viewDoctors"), 1500);
+        }
+      } catch (error) {
+        console.error("Error adding doctor:", error);
+        toast.error(error.response?.data?.message || "Failed to add doctor. Please try again.");
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Something went wrong.");
-    }
-  };
+    },
+  });
 
   return (
-    <>
-      <div className="add-doctor-container">
-        <h3>Add New Doctor</h3>
-        {/* ✅ FIXED: added enctype for file upload */}
-        <form onSubmit={handleSubmit} className="doctor-form" encType="multipart/form-data">
-          <div className="form-group">
-            <label>Doctor Name</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
-          </div>
+    <div className="add-doctor-container">
+      <ToastContainer />
+      <h3 className="mb-4">Add New Doctor</h3>
 
-          <div className="form-group">
-            <label>Email</label>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          </div>
+      <form onSubmit={formik.handleSubmit} className="doctor-form">
+        {/* Doctor Name */}
+        <FormField
+          label="Doctor Name"
+          name="name"
+          type="text"
+          placeholder="Enter doctor's full name"
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.name}
+          touched={formik.touched.name}
+          icon={<FaUser />}
+        />
 
-          <div className="form-group">
-            <label>Degree</label>
-            <input type="text" value={degree} onChange={(e) => setDegree(e.target.value)} required />
-          </div>
+        {/* Email */}
+        <FormField
+          label="Email"
+          name="email"
+          type="email"
+          placeholder="Enter doctor's email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.email}
+          touched={formik.touched.email}
+          icon={<FaEnvelope />}
+        />
 
-          <div className="form-group">
-            <label>Phone</label>
-            <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} required />
-          </div>
+        {/* Phone */}
+        <FormField
+          label="Phone Number"
+          name="phone"
+          type="tel"
+          placeholder="10-digit phone number"
+          value={formik.values.phone}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.phone}
+          touched={formik.touched.phone}
+          icon={<FaPhone />}
+          maxLength="10"
+          inputMode="numeric"
+        />
 
-          <div className="form-group">
-            <label>Specialization</label>
-            <select value={specializationId} onChange={(e) => setSpecializationId(e.target.value)} required>
-              <option value="">Select Specialization</option>
-              {specializations.map((spec) => (
-                <option key={spec.id} value={spec.id}>{spec.name}</option>
-              ))}
-            </select>
-          </div>
+        {/* Degree */}
+        <FormField
+          label="Medical Degree"
+          name="degree"
+          type="text"
+          placeholder="Enter degree (e.g., MBBS, MD)"
+          value={formik.values.degree}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.degree}
+          touched={formik.touched.degree}
+          icon={<FaGraduationCap />}
+        />
 
-          <div className="form-group">
-            <label>Doctor Image</label>
-            <input type="file" accept="image/*" onChange={handleImageChange} required />
-          </div>
+        {/* Specialization */}
+        <div className="mb-3">
+          <label className="form-label fw-semibold">Specialization</label>
+          <select
+            name="specialization"
+            {...formik.getFieldProps("specialization")}
+            className={`form-control ${
+              formik.touched.specialization && formik.errors.specialization
+                ? "is-invalid border-danger"
+                : ""
+            }`}
+            style={{
+              borderColor:
+                formik.touched.specialization && formik.errors.specialization
+                  ? "#dc3545"
+                  : undefined,
+            }}
+          >
+            <option value="">-- Select Specialization --</option>
+            {specializations.map((spec) => (
+              <option key={spec.id} value={spec.id}>
+                {spec.name}
+              </option>
+            ))}
+          </select>
+          {formik.touched.specialization && formik.errors.specialization && (
+            <div className="invalid-feedback d-block" style={{ color: "#dc3545" }}>
+              {formik.errors.specialization}
+            </div>
+          )}
+        </div>
 
-          <div className="form-group">
-            <label>Amount</label>
-            <input type="number" value={amount} onChange={(e) => setAmount(e.target.value)} required />
-          </div>
+        {/* Consultation Fee */}
+        <FormField
+          label="Consultation Fee"
+          name="fee"
+          type="number"
+          placeholder="Enter fee amount"
+          value={formik.values.fee}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.fee}
+          touched={formik.touched.fee}
+          icon={<FaMoneyBillWave />}
+          step="0.01"
+          inputMode="decimal"
+        />
 
-          <div className="form-group">
-            <label>Password</label>
-            <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
-          </div>
+        {/* Password */}
+        <FormField
+          label="Password"
+          name="password"
+          type="password"
+          placeholder="Min 8 chars: uppercase, lowercase, number, special"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.errors.password}
+          touched={formik.touched.password}
+        />
 
-          {error && <p className="error-message">{error}</p>}
-
-          <button type="submit" className="submit-btn">Submit</button>
-        </form>
-      </div>
-    </>
+        {/* Submit Button */}
+        <div className="d-grid mt-4">
+          <button
+            type="submit"
+            className="btn btn-primary btn-lg"
+            disabled={loading || !formik.isValid || !formik.dirty}
+          >
+            {loading ? (
+              <>
+                <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                Adding Doctor...
+              </>
+            ) : (
+              "Add Doctor"
+            )}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 }
 

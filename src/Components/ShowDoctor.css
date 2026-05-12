@@ -1,78 +1,274 @@
+.doctor-page {
+  background: #f7fbff;
+  color: #123047;
+  min-height: 100vh;
+}
+
+.doctor-results-hero {
+  background:
+    radial-gradient(circle at 85% 25%, rgba(11, 184, 159, 0.2), transparent 30%),
+    linear-gradient(135deg, #f4fbff, #eaf8ff);
+  padding: 3.5rem 0 4rem;
+}
+
+.doctor-results-hero span {
+  color: #0b8f8a;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.7rem;
+  text-transform: uppercase;
+}
+
+.doctor-results-hero h1 {
+  color: #102a43;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.08;
+  margin-bottom: 0.8rem;
+}
+
+.doctor-results-hero p {
+  color: #5f7485;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 0;
+  max-width: 680px;
+}
+
+.doctor-results-content {
+  padding: 3rem 0 5rem;
+}
+
+.doctor-grid,
 .product-list-container {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 columns per row */
-  gap: 16px;
-  padding: 20px;
-  justify-content: center;
-}
-
-@media (max-width: 1200px) {
-  .product-list-container {
-    grid-template-columns: repeat(3, 1fr); /* 3 columns on medium screens */
-  }
-}
-
-@media (max-width: 900px) {
-  .product-list-container {
-    grid-template-columns: repeat(2, 1fr); /* 2 columns on smaller screens */
-  }
-}
-
-@media (max-width: 600px) {
-  .product-list-container {
-    grid-template-columns: 1fr; /* 1 column on extra small screens */
-  }
+  gap: 1.25rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .doctor-card {
   background-color: white;
-  border: 2px solid black;
-  border-radius: 12px;
-  padding: 20px;
-  text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease;
+  border: 1px solid rgba(141, 164, 183, 0.18);
+  border-radius: 20px;
+  box-shadow: 0 18px 45px rgba(15, 52, 86, 0.08);
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  overflow: hidden;
+  padding: 0.9rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .doctor-card:hover {
-  transform: translateY(-5px);
+  box-shadow: 0 24px 58px rgba(15, 52, 86, 0.14);
+  transform: translateY(-6px);
+}
+
+.doctor-image-wrap {
+  align-items: center;
+  background: linear-gradient(135deg, rgba(10, 143, 221, 0.08), rgba(11, 184, 159, 0.12));
+  border-radius: 16px;
+  display: flex;
+  height: 250px;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .doctor-image {
+  height: 100%;
+  object-fit: contain;
   width: 100%;
-  max-height: 250px;
-  object-fit: cover;
-  border-radius: 8px;
+}
+
+.doctor-image-placeholder {
+  align-items: center;
+  color: #0a8fdd;
+  display: flex;
+  font-size: 4rem;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
 }
 
 .doctor-details {
-  margin-top: 10px;
+  flex: 1;
+  padding: 1.15rem 0.2rem 1rem;
+}
+
+.doctor-specialization-pill {
+  background: rgba(10, 143, 221, 0.1);
+  border-radius: 999px;
+  color: #0869a8;
+  display: inline-flex;
+  font-size: 0.78rem;
+  font-weight: 900;
+  margin-bottom: 0.7rem;
+  padding: 0.42rem 0.7rem;
 }
 
 .doctor-name {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #333;
+  color: #102a43;
+  font-size: 1.35rem;
+  font-weight: 900;
+  line-height: 1.25;
+  margin-bottom: 0.3rem;
 }
 
-.doctor-degree, .doctor-phone, .doctor-specialization {
-  font-size: 1rem;
-  color: #555;
-  margin: 5px 0;
+.doctor-degree {
+  color: #637787;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.doctor-meta {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.doctor-meta span {
+  align-items: center;
+  color: #506779;
+  display: inline-flex;
+  font-weight: 700;
+  gap: 0.55rem;
+}
+
+.doctor-meta svg {
+  color: #0a8fdd;
 }
 
 .book-appointment-button {
-  background-color: #007bff;
-  color: white;
-  padding: 10px 15px;
+  align-items: center;
+  background: linear-gradient(135deg, #0a8fdd, #0bb89f);
   border: none;
-  border-radius: 5px;
+  border-radius: 999px;
+  box-shadow: 0 14px 28px rgba(10, 143, 221, 0.22);
+  color: white;
   cursor: pointer;
-  font-weight: bold;
-  transition: background-color 0.3s ease;
-  margin-top: 10px;
+  display: inline-flex;
+  font-weight: 900;
+  gap: 0.55rem;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0.8rem 1rem;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  width: 100%;
 }
 
 .book-appointment-button:hover {
-  background-color: #0056b3;
+  box-shadow: 0 18px 38px rgba(10, 143, 221, 0.3);
+  transform: translateY(-2px);
+}
+
+.doctor-state-card {
+  align-items: center;
+  background: #fff;
+  border: 1px solid rgba(141, 164, 183, 0.18);
+  border-radius: 20px;
+  box-shadow: 0 18px 45px rgba(15, 52, 86, 0.08);
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: 560px;
+  padding: 3rem 1.5rem;
+  text-align: center;
+}
+
+.doctor-state-card svg {
+  color: #0a8fdd;
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+
+.doctor-state-card h2 {
+  color: #102a43;
+  font-size: 1.6rem;
+  font-weight: 900;
+}
+
+.doctor-state-card p {
+  color: #627787;
+  line-height: 1.6;
+}
+
+.doctor-state-card button {
+  background: #0a8fdd;
+  border: 0;
+  border-radius: 999px;
+  color: #fff;
+  font-weight: 900;
+  padding: 0.8rem 1.2rem;
+}
+
+.doctor-card-skeleton {
+  pointer-events: none;
+}
+
+.skeleton {
+  animation: shimmer 1.3s ease-in-out infinite;
+  background: linear-gradient(90deg, #edf5fb 25%, #f8fcff 50%, #edf5fb 75%);
+  background-size: 220% 100%;
+  border-radius: 14px;
+}
+
+.skeleton-image {
+  height: 250px;
+  margin-bottom: 1rem;
+}
+
+.skeleton-line {
+  height: 15px;
+  margin: 0.7rem 0;
+  width: 72%;
+}
+
+.skeleton-line-lg {
+  height: 22px;
+  width: 88%;
+}
+
+.skeleton-button {
+  height: 48px;
+  margin-top: auto;
+  width: 100%;
+}
+
+@keyframes shimmer {
+  from {
+    background-position: 100% 0;
+  }
+
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .doctor-grid,
+  .product-list-container {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .doctor-results-hero {
+    padding: 2.75rem 0 3.25rem;
+  }
+
+  .doctor-results-content {
+    padding-top: 2rem;
+  }
+
+  .doctor-grid,
+  .product-list-container {
+    grid-template-columns: 1fr;
+  }
+
+  .doctor-image-wrap,
+  .skeleton-image {
+    height: 230px;
+  }
 }

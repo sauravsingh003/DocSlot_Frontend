@@ -2,162 +2,139 @@ import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Styles.css";
-import { BsPersonCircle, BsCalendarCheckFill } from "react-icons/bs";
-import { toast } from "react-toastify";
+import { BsCalendarCheckFill, BsPersonCircle } from "react-icons/bs";
+import { FaBars, FaXmark } from "react-icons/fa6";
 
 function CustomerNavbar() {
   const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
-  const [isAppointmentDropdownOpen, setIsAppointmentDropdownOpen] =
-    useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const userId = sessionStorage.getItem("userId");
+  const dropdownTimeoutRef = React.useRef(null);
+  
+  // Debug: log userId to verify it's being set correctly
+  React.useEffect(() => {
+    console.log("Customer Navbar - userId:", userId);
+  }, [userId]);
 
-  // Toggle Profile Dropdown
-  const handleProfileMouseEnter = () => setIsProfileDropdownOpen(true);
-  const handleProfileMouseLeave = () => setIsProfileDropdownOpen(false);
+  const closeMenu = () => {
+    setIsMenuOpen(false);
+    setIsProfileDropdownOpen(false);
+  };
 
-  // Toggle Appointment Dropdown
-  const handleAppointmentMouseEnter = () => setIsAppointmentDropdownOpen(true);
-  const handleAppointmentMouseLeave = () => setIsAppointmentDropdownOpen(false);
+  const handleProfileMouseEnter = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setIsProfileDropdownOpen(true);
+  };
 
-  // Navigation Handlers
-  const handleLoginClick = () => navigate("/login");
-  const handleRegisterClick = () => navigate("/register");
+  const handleProfileMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setIsProfileDropdownOpen(false);
+    }, 150);
+  };
+
+  const handleLoginClick = () => {
+    closeMenu();
+    navigate("/login");
+  };
+  const handleRegisterClick = () => {
+    closeMenu();
+    navigate("/register");
+  };
   const handleLogoutClick = () => {
     sessionStorage.removeItem("userId");
+    closeMenu();
     navigate("/");
   };
 
   return (
-    <nav
-      className="navbar navbar-expand-lg px-3"
-      style={{ minHeight: "13vh", backgroundColor: "white" }}
-    >
-      <div className="container-fluid">
-        {/* Brand Logo */}
-        <NavLink
-          className="navbar-brand text-white d-flex align-items-center"
-          to="/"
-          style={{ color: "#076cea" }}
-        >
-          <span className="logo-style1" style={{ color: "#076cea" }}>
-            DocSlot
-          </span>
+    <nav className="docslot-navbar">
+      <div className="container docslot-navbar-inner">
+        <NavLink className="docslot-brand" to="/" onClick={closeMenu}>
+          <span className="brand-mark">D</span>
+          <span className="logo-style1">DocSlot</span>
         </NavLink>
 
-        {/* Toggler for Mobile View */}
         <button
-          className="navbar-toggler"
+          className="mobile-menu-toggle"
           type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
+          aria-controls="docslot-nav-menu"
+          aria-expanded={isMenuOpen}
           aria-label="Toggle navigation"
+          onClick={() => setIsMenuOpen((open) => !open)}
         >
-          <span className="navbar-toggler-icon"></span>
+          {isMenuOpen ? <FaXmark /> : <FaBars />}
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            {/* Profile Dropdown */}
-            <li
-              className="nav-item dropdown"
-              onMouseEnter={handleProfileMouseEnter}
-              onMouseLeave={handleProfileMouseLeave}
-            >
-              <button
-                className="btn btn-black"
-                style={{
-                  color: "#076cea",
-                  fontWeight: "bold",
-                  border: "2px solid #076cea",
-                  marginTop: "11%",
-                }}
-              >
-                <BsPersonCircle size={20} style={{ marginRight: "8px" }} />
-                {userId ? "Profile" : "Sign In"}
-              </button>
-
-              {isProfileDropdownOpen && (
-                <div
-                  className="dropdown-menu show"
-                  style={{
-                    position: "absolute",
-                    top: "100%",
-                    left: "50%",
-                    transform: "translateX(-50%)",
-                    minWidth: "160px",
-                    backgroundColor: "#ffffff",
-                    border: "1px solid #076cea",
-                    borderRadius: "6px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-                    padding: "8px 12px",
-                    zIndex: 1000,
-                  }}
-                >
-                  {userId ? (
-                    <button
-                      className="dropdown-item"
-                      style={{
-                        padding: "8px 12px",
-                        borderRadius: "4px",
-                      }}
-                      onClick={handleLogoutClick}
-                    >
-                      Logout
-                    </button>
-                  ) : (
-                    <>
-                      <button
-                        className="dropdown-item"
-                        style={{
-                          padding: "8px 12px",
-                          borderRadius: "4px",
-                        }}
-                        onClick={handleLoginClick}
-                      >
-                        Login
-                      </button>
-                      <button
-                        className="dropdown-item"
-                        style={{
-                          padding: "8px 12px",
-                          borderRadius: "4px",
-                        }}
-                        onClick={handleRegisterClick}
-                      >
-                        Register
-                      </button>
-                    </>
-                  )}
-                </div>
-              )}
+        <div
+          className={`docslot-nav-menu ${isMenuOpen ? "is-open" : ""}`}
+          id="docslot-nav-menu"
+        >
+          <ul className="docslot-nav-links">
+            <li>
+              <NavLink to="/" onClick={closeMenu}>
+                Home
+              </NavLink>
             </li>
-
-            <li className="nav-item">
-              <NavLink
-                className="nav-link fs-4 fw-semibold"
-                to={`/viewappointments`}
-              >
-                <button
-                  type="button"
-                  className="btn btn-white"
-                  style={{
-                    color: "#076cea",
-                    fontWeight: "bold",
-                    border: "2px solid #076cea",
-                  }}
-                >
-                  <BsCalendarCheckFill
-                    size={20}
-                    style={{ marginRight: "8px" }}
-                  />
-                  Appointments
-                </button>
+            <li>
+              <NavLink to="/about" onClick={closeMenu}>
+                About
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/services" onClick={closeMenu}>
+                Services
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/contact" onClick={closeMenu}>
+                Contact
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/viewappointments" onClick={closeMenu}>
+                <BsCalendarCheckFill />
+                Appointments
               </NavLink>
             </li>
           </ul>
+
+          <div
+            className="profile-menu"
+            onMouseEnter={handleProfileMouseEnter}
+            onMouseLeave={handleProfileMouseLeave}
+          >
+            <button
+              className="profile-trigger"
+              type="button"
+              aria-expanded={isProfileDropdownOpen}
+              onClick={() => setIsProfileDropdownOpen((open) => !open)}
+            >
+              <BsPersonCircle />
+              {userId ? "Profile" : "Sign In"}
+            </button>
+
+            {isProfileDropdownOpen && (
+              <div className="profile-dropdown">
+                {userId ? (
+                  <button type="button" onClick={handleLogoutClick}>
+                    Logout
+                  </button>
+                ) : (
+                  <>
+                    <button type="button" onClick={handleLoginClick}>
+                      Login
+                    </button>
+                    <button type="button" onClick={handleRegisterClick}>
+                      Register
+                    </button>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </nav>

@@ -9,14 +9,13 @@ function AddSpeciality() {
 
   const navigate = useNavigate();
     useEffect(() => {
-      if (!sessionStorage.getItem("userName")) {
+      const userName = sessionStorage.getItem("userName");
+      const userRole = sessionStorage.getItem("userRole");
+      
+      if (!userName) {
         navigate("/");
-      } else if (sessionStorage.getItem("userRole") === "DOCTOR") {
-        navigate("/doctor");
-      } else if (sessionStorage.getItem("userRole") === "PATIENT") {
+      } else if (userRole && userRole.includes("ROLE_PATIENT")) {
         navigate("/");
-      } else if (sessionStorage.getItem("userRole") === "RECEPTIONIST") {
-        navigate("/receiptionist");
       }
     }, [navigate]);
 
